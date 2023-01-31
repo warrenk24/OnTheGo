@@ -70,6 +70,7 @@ const inputElevation = document.querySelector('.form__input--elevation');
 class App {
   //private classes
   #map;
+  #mapZoomLevel = 13;
   #mapEvent;
   #workouts = [];
 
@@ -79,6 +80,7 @@ class App {
     //Event handlers
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField.bind(this));
+    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
   }
 
   _getPosition() {
@@ -97,7 +99,7 @@ class App {
     const { longitude } = position.coords;
     console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
     const coords = [latitude, longitude];
-    this.#map = L.map('map').setView(coords, 13);
+    this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
 
     L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
       maxZoom: 19,
@@ -121,9 +123,9 @@ class App {
       inputDuration.value =
       inputElevation.value =
         '';
-    form.style.display = 'none'
+    form.style.display = 'none';
     form.classList.add('hidden');
-    setTimeout(() => form.style.display = 'grid',1000)
+    setTimeout(() => (form.style.display = 'grid'), 1000);
   }
 
   _toggleElevationField() {
@@ -181,6 +183,8 @@ class App {
 
     //Clear Input fields
     this._hideForm();
+
+    
   }
   _renderWorkoutMarker(workout) {
     L.marker(workout.coords)
@@ -194,9 +198,9 @@ class App {
           className: `${workout.type}-popup`,
         })
       )
-      .setPopupContent(`${
-        workout.type === 'running' ? '🏃' : '🚴'
-      } ${workout.description}`)
+      .setPopupContent(
+        `${workout.type === 'running' ? '🏃' : '🚴'} ${workout.description}`
+      )
       .openPopup();
   }
   _renderWorkout(workout) {
@@ -244,6 +248,21 @@ class App {
 </li>`;
 
     form.insertAdjacentHTML('afterend', html);
+  }
+  _moveToPopup(e) {
+    const workoutEl = e.target.closest('.workout');
+
+    if (!workoutEl) return;
+
+    const workout = this.#workouts.find(work => work.id === workoutEl.dataset.id);
+
+    this.#map.setView(workout.coords,this.#mapZoomLevel, {
+      animate: true,
+      pan: {
+        duration: 1,
+
+      }
+    });
   }
 }
 
