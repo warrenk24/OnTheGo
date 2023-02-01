@@ -4,11 +4,25 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+      crossorigin=""
+      defer
+    ></script>
+    <script src="script.js" defer></script>
     <title>OnTheGo</title>
   </head>
   <body>
     <div class="sidebar">
-      <h1>OnTheGO</h1>
+      <img class="logo" src="mlogo.png" alt="logo">
       <ul class="workouts">
         <form class="form hidden">
           <div class="form__row">
@@ -20,70 +34,79 @@
           </div>
           <div class="form__row">
             <label class="form__label">Distance</label>
-            <input class="form__input form__input--distance" placeholder="km">
+            <input class="form__input form__input--distance" placeholder="km" />
           </div>
           <div class="form__row">
             <label class="form__label">Duration</label>
-            <input class="form__input form__input--duration" placeholder="min">
+            <input
+              class="form__input form__input--duration"
+              placeholder="min"
+            />
           </div>
           <div class="form__row">
             <label class="form__label">Cadence</label>
-            <input class="form__input form__input--cadence" placeholder="step/min">
+            <input
+              class="form__input form__input--cadence"
+              placeholder="step/min"
+            />
           </div>
           <div class="form__row form__row--hidden">
             <label class="form__label">Elev Gain</label>
-            <input class="form__input form__input--elevation" placeholder="meters">
+            <input
+              class="form__input form__input--elevation"
+              placeholder="meters"
+            />
           </div>
-          <button class="form">OK</button>__btn
+          <button class="form__btn">OK</button>
         </form>
 
         <!-- Data layout -->
-        <li class="workout workout--running" data-id="1234567890">
-            <h2 class="workout__title">Running on Jan 12</h2>
-            <div class="workout__details">
-                <span class="workout_icon">🏃‍♂️</span>
-                <span class="workout__value">4</span>
-                <span class="workout_unit">km</span>
-            </div>
-            <div class="workout__details">
-                <span class="workout_icon">⏱</span>
-                <span class="workout__value">34</span>
-                <span class="workout_unit">min</span>
-            </div>
-            <div class="workout__details">
-                <span class="workout_icon">⚡️</span>
-                <span class="workout__value">4</span>
-                <span class="workout_unit">min/km</span>
-            </div>
-            <div class="workout__details">
-                <span class="workout_icon">🦶🏼</span>
-                <span class="workout__value">234</span>
-                <span class="workout_unit">spm</span>
-            </div>
+        <!-- <li class="workout workout--running" data-id="1234567890">
+          <h2 class="workout__title">Running on Jan 12</h2>
+          <div class="workout__details">
+            <span class="workout_icon">🏃‍♂️</span>
+            <span class="workout__value">4</span>
+            <span class="workout_unit">km</span>
+          </div>
+          <div class="workout__details">
+            <span class="workout_icon">⏱</span>
+            <span class="workout__value">34</span>
+            <span class="workout_unit">min</span>
+          </div>
+          <div class="workout__details">
+            <span class="workout_icon">⚡️</span>
+            <span class="workout__value">4</span>
+            <span class="workout_unit">min/km</span>
+          </div>
+          <div class="workout__details">
+            <span class="workout_icon">🦶🏼</span>
+            <span class="workout__value">234</span>
+            <span class="workout_unit">spm</span>
+          </div>
         </li>
         <li class="workout workout--cycling" data-id="1234567891">
-            <h2 class="workout__title">Cycling on dec 12</h2>
-            <div class="workout__details">
-                <span class="workout_icon">🚴‍♀️</span>
-                <span class="workout__value">24</span>
-                <span class="workout_unit">km</span>
-            </div>
-            <div class="workout__details">
-                <span class="workout_icon">⏱</span>
-                <span class="workout__value">54</span>
-                <span class="workout_unit">min</span>
-            </div>
-            <div class="workout__details">
-                <span class="workout_icon">⚡️</span>
-                <span class="workout__value">24</span>
-                <span class="workout_unit">min/km</span>
-            </div>
-            <div class="workout__details">
-                <span class="workout_icon">⛰</span>
-                <span class="workout__value">134</span>
-                <span class="workout_unit">m</span>
-            </div>
-        </li>
+          <h2 class="workout__title">Cycling on dec 12</h2>
+          <div class="workout__details">
+            <span class="workout_icon">🚴‍♀️</span>
+            <span class="workout__value">24</span>
+            <span class="workout_unit">km</span>
+          </div>
+          <div class="workout__details">
+            <span class="workout_icon">⏱</span>
+            <span class="workout__value">54</span>
+            <span class="workout_unit">min</span>
+          </div>
+          <div class="workout__details">
+            <span class="workout_icon">⚡️</span>
+            <span class="workout__value">24</span>
+            <span class="workout_unit">min/km</span>
+          </div>
+          <div class="workout__details">
+            <span class="workout_icon">⛰</span>
+            <span class="workout__value">134</span>
+            <span class="workout_unit">m</span>
+          </div>
+        </li> -->
       </ul>
     </div>
     <div id="map"></div>

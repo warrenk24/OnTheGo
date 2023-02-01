@@ -33,6 +33,7 @@ body {
    
 }
 
+
 /*** GENERAL *************/
 a:link, a:visited {
     color: var(--color-dark--1);
@@ -58,6 +59,12 @@ h1{
     overflow-x: hidden;
  
 
+}
+
+.logo{
+  width: 10%;
+  margin: 15px auto;
+  text-align: center;
 }
 
 .workouts::-webkit-scrollbar {
