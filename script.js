@@ -41,11 +41,11 @@ class Cycling extends Workout {
     super(coords, distance, duration);
     this.elevationGain = elevationGain;
 
-    this.speed();
+    this.calcSpeed();
     this._setDescription();
   }
 
-  calcPace() {
+  calcSpeed() {
     // km/h
     this.speed = this.distance / (this.duration / 60);
     return this.speed;
@@ -75,8 +75,10 @@ class App {
   #workouts = [];
 
   constructor() {
+    //Get user position
     this._getPosition();
-
+    //get data from local storage
+    this._getLocalStorage();
     //Event handlers
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField.bind(this));
@@ -109,6 +111,11 @@ class App {
 
     //Handling clicks on map
     this.#map.on('click', this._showForm.bind(this));
+
+    //render marker
+    this.#workouts.forEach(work => {
+      this._renderWorkoutMarker(work);
+    });
   }
 
   _showForm(mapE) {
@@ -184,7 +191,8 @@ class App {
     //Clear Input fields
     this._hideForm();
 
-    
+    //locale storage
+    this._setLocalStorage();
   }
   _renderWorkoutMarker(workout) {
     L.marker(workout.coords)
@@ -254,16 +262,39 @@ class App {
 
     if (!workoutEl) return;
 
-    const workout = this.#workouts.find(work => work.id === workoutEl.dataset.id);
+    const workout = this.#workouts.find(
+      work => work.id === workoutEl.dataset.id
+    );
 
-    this.#map.setView(workout.coords,this.#mapZoomLevel, {
+    this.#map.setView(workout.coords, this.#mapZoomLevel, {
       animate: true,
       pan: {
         duration: 1,
-
-      }
+      },
     });
   }
+
+  _setLocalStorage() {
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+  }
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem('workouts'));
+
+    if (!data) return;
+
+    this.#workouts = data;
+    this.#workouts.forEach(work => {
+      this._renderWorkout(work);
+    });
+  }
+
+  remove() {
+    localStorage.removeItem('workouts');
+    location.reload();
+  }
 }
+
+
+
 
 const app = new App();
